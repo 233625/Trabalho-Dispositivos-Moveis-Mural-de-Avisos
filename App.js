@@ -1,32 +1,51 @@
-import React, { Component } from 'react'; 
-import {View, Text, StyleSheet, TouchableOpacity, Button, SafeAreaView} from 'react-native';
+import React, { useState } from 'react'; 
+import {View, Text, StyleSheet, TouchableOpacity, Button,
+   SafeAreaView, FlatList, Modal} from 'react-native';
+import  TarefaLista from './src/components/TarefaLista';
 
-class App extends Component{
-  aperte(){
-    alert("Ta funcionando!!!!!");
-  }
-  
-  render(){
-    return(
-      <SafeAreaView style={styles.conteiner}>
-          <View>
-            <Text style={styles.title}>Mural da Avisos</Text>
-          </View>
-          
-          <TouchableOpacity style={styles.botao}>
-            <Button
-            style={styles.btnText}
-            color='#00FF00'
-            title="+"
-            onPress={this.aperte}
-            />
-          </TouchableOpacity>
+   
+export default function App(){
+  const [tarefa,setTarefa] = useState([
+    {key:1, tarefa: 'Comprar mingau'},
+    {key:2, tarefa: 'Comprar Papel'},
+    {key:3, tarefa: 'Comprar Bial'}
+   ]);
 
+   const [open,setOpen] = useState(false);
+  return(
+    //Inicio -> onde fica o titulo
+    <SafeAreaView style={styles.conteiner}>
+        <View>
+          <Text style={styles.title}>Mural da Avisos</Text>
+        </View>
+
+        <FlatList
+        showsHorizontalScrollIndicator={false}
+        data={tarefa}
+        keyExtractor={(item)=> String(item.key)}
+        renderItem={({item})=> <TarefaLista data={item}/>}
+        />
+
+        <Modal transparent={false} visible={open}>
+          <SafeAreaView>
+            <Text>Modal 1221212</Text>
+          </SafeAreaView>
+        </Modal>
         
-      </SafeAreaView>
+        {/*Inicio dos comandos para o botão lateral */}
+        <TouchableOpacity style={styles.botao}>
+          <Button
+          style={styles.btnText}
+          color='#00FF00'
+          title="+"
+          onPress={() => setOpen(true)}
+          />
+        </TouchableOpacity>
+
       
-    );
-  }
+    </SafeAreaView>
+    
+  );
 }
 
 const styles = StyleSheet.create({
@@ -50,5 +69,3 @@ botao:{
   zIndex:9,
 }
 });
-
-export default App;
