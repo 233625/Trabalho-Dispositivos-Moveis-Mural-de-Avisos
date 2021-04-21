@@ -1,14 +1,34 @@
-import React, { useCallback, useState } from 'react'; 
+import React, { useCallback, useState, useEffect } from 'react'; 
 import {View, Text, StyleSheet, TouchableOpacity, Button,
    SafeAreaView, FlatList, Modal, TextInput} from 'react-native';
+   //import AsyncStorage from '@react-native-community/async-storage';
 import  TarefaLista from './src/components/TarefaLista';
 
-   
+ 
 export default function App(){
   const [tarefa,setTarefa] = useState([]);
   const [open,setOpen] = useState(false);
   const [input, setInput] = useState('');
 
+  //  useEffect(()=>{
+  //   async function loadTasks(){
+  //     const taskStronge = await AsyncStorage.getItem('@task');
+
+  //     if(taskStronge){
+  //       setTarefa(JSON.parse(taskStronge));
+  //     }
+  //   }
+
+  //   loadTasks();
+  //  },[]);
+
+  //  useEffect(()=>{
+  //   async function salvandoTask(){
+  //     await AsyncStorage.setItem('@task',JSON.stringify(tarefa));
+  //   }
+
+  //   salvandoTask();
+  //  },[tarefa])
 
   function Add(){
     if(input === '')return;
@@ -28,6 +48,13 @@ export default function App(){
     setTarefa(find);
   })
 
+  const handleUpdate = useCallback((data)=>{
+    setOpen(true);
+    const find = tarefa.filter(r => r.key !== data.key);
+    setTarefa(find);
+
+  })
+  
   return(
     //Inicio -> onde fica o titulo
     <SafeAreaView style={styles.conteiner}>
@@ -41,7 +68,9 @@ export default function App(){
         showsHorizontalScrollIndicator={false}
         data={tarefa}
         keyExtractor={(item)=> String(item.key)}
-        renderItem={({item})=> <TarefaLista data={item} handleDelete={handleDelete}/>}
+        renderItem={({item})=> <TarefaLista data={item} 
+        handleDelete={handleDelete} 
+        handleUpdate ={handleUpdate}/>}
         />
         
         
@@ -49,7 +78,7 @@ export default function App(){
         <Modal transparent={false} visible={open}>
           <SafeAreaView style={styles.conteiner}>
           
-            <TouchableOpacity onPress={() => setOpen(false)} >
+            <TouchableOpacity onPress={() => setOpen(false)}>
               <Text> Voltar </Text>
             </TouchableOpacity>
 
