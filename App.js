@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react'; 
 import {View, Text, StyleSheet, TouchableOpacity, Button,
    SafeAreaView, FlatList, Modal, TextInput} from 'react-native';
-   //import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 import  TarefaLista from './src/components/TarefaLista';
 
  
@@ -10,25 +10,25 @@ export default function App(){
   const [open,setOpen] = useState(false);
   const [input, setInput] = useState('');
 
-  //  useEffect(()=>{
-  //   async function loadTasks(){
-  //     const taskStronge = await AsyncStorage.getItem('@task');
+    useEffect(()=>{
+     async function loadTasks(){
+       const taskStronge = await AsyncStorage.getItem('@task');
 
-  //     if(taskStronge){
-  //       setTarefa(JSON.parse(taskStronge));
-  //     }
-  //   }
+       if(taskStronge){
+         setTarefa(JSON.parse(taskStronge));
+       }
+     }
 
-  //   loadTasks();
-  //  },[]);
+     loadTasks();
+    },[]);
 
-  //  useEffect(()=>{
-  //   async function salvandoTask(){
-  //     await AsyncStorage.setItem('@task',JSON.stringify(tarefa));
-  //   }
+    useEffect(()=>{
+     async function salvandoTask(){
+       await AsyncStorage.setItem('@task',JSON.stringify(tarefa));
+     }
 
-  //   salvandoTask();
-  //  },[tarefa])
+     salvandoTask();
+    },[tarefa])
 
   function Add(){
     if(input === '')return;
@@ -79,7 +79,7 @@ export default function App(){
           <SafeAreaView style={styles.conteiner}>
           
             <TouchableOpacity onPress={() => setOpen(false)}>
-              <Text> Voltar </Text>
+              <Text style=  {styles.retorno}> Voltar </Text>
             </TouchableOpacity>
 
             
@@ -96,6 +96,7 @@ export default function App(){
               value={input}
               onChangeText={(texto)=> setInput(texto)}
               style={styles.input}
+              maxLength={250}
               />
             </View>
 
@@ -112,7 +113,7 @@ export default function App(){
         <TouchableOpacity style={styles.botao}>
           <Button
           style={styles.btnText}
-          color='#00FF00'
+          color='#001a33'
           title="+"
           onPress={() => setOpen(true)}
           />
@@ -160,14 +161,19 @@ input:{
   borderRadius: 5
 },
 btn:{
-  backgroundColor:'#00FF00',
+  backgroundColor:'#001a33',
   marginTop: 10,
   justifyContent:'center',
   textAlign: 'center',
   marginLeft: 10,
   marginRight: 10,
   height: 40,
+  color:'#FFF',
   borderRadius: 5,
   fontSize: 20
+},
+retorno:{
+  fontSize: 20,
+  marginTop: 10,
 }
 });

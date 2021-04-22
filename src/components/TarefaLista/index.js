@@ -58,6 +58,7 @@ editar:{
     position:'relative'
 },
 navegar:{
-    flexDirection:'row'
+    flexDirection:'row',
+    alignItems:'center'
 }
 });
