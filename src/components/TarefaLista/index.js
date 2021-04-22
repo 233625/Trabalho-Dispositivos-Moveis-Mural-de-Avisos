@@ -1,14 +1,20 @@
 import React from 'react';
 import { View, Text,StyleSheet, TouchableOpacity} from 'react-native';
 
-export default function TarefaLista({data, handleDelete}){
+
+export default function TarefaLista({data, handleDelete, handleUpdate}){
     return(
         <View style={styles.conteiner}>
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.navegar}>
                 <Text style={styles.tarefa}>{data.tarefa}</Text>
                 
                 <TouchableOpacity >
                     <Text style={styles.excluir} onPress={() =>handleDelete(data)}>excluir</Text>
+                
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <Text style={styles.editar} onPress={() => handleUpdate(data)}>editar</Text>
                 </TouchableOpacity>
             </TouchableOpacity>
            
@@ -38,8 +44,20 @@ tarefa:{
     color:'#121212',
     fontSize: 16,
     paddingLeft:10,
+    flex: 1
 },
-//excluir:{
-  //  color:'#ff9999',
-//}
+excluir:{
+    color:'#ff1a1a',
+    marginTop: 15,
+    position:'relative'
+},
+editar:{
+    color:'orange',
+    marginTop: 15,
+    left: 4,
+    position:'relative'
+},
+navegar:{
+    flexDirection:'row'
+}
 });
